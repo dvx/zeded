@@ -1,3 +1,8 @@
+/* ZEDED (c) David Titarenco 2010
+ * Licence: MIT
+ * TODO: still plenty of stuff
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -15,7 +20,7 @@ struct __s_zeded_vm {
 	const char *appname;					// application name
 	const char *version;					// VM version
 	unsigned char* shared_memory;			// shared memory between pathways, currently not implemented
-	/* The route (code pathway) struct and declaration 
+	/* The route (code pathway) struct and declaration
 	 * TODO: memory should be a variable-size buffer for the sake of Turing-completeness
 	 */
 	struct __s_vm_route {
@@ -30,7 +35,7 @@ struct __s_zeded_vm {
 	int num_pathways;						// how many pathways?
 } VM = { NULL };
 
-/* Some helper typedefs for C and C++ (note the scope resolution) 
+/* Some helper typedefs for C and C++ (note the scope resolution)
  * TODO: Actually use bool more liberallys
  */
 #ifdef __cplusplus
@@ -41,10 +46,10 @@ struct __s_zeded_vm {
 	enum bool { false, true };
 #endif
 
-/* prototypes 
+/* prototypes
  * TODO: Fix some of these prototypes so they take a VM, not pointers (to pointers to pointers) of pathways
  */
-void titleCard();								// intro (and help) screen 
+void titleCard();								// intro (and help) screen
 void initVM(char*);								// set up VM appname and version
 int allocVMPathways(VM_ROUTE***, int, char**);	// malloc some memory for the pathways and call all other functions, i.e. initVMPathwayFromFile(), and runVMPathways()
 int initVMPathwayFromFile(VM_ROUTE*, char*);	// make sure all files exist and populate pathway buffers
@@ -55,7 +60,7 @@ void cleanupVM(int);							// calls freeVMPathways() and also cleans up any memo
 
 int main(int argc, char *argv[]) {
 	initVM(argv[0]);
- 
+
 	if (argc < 3) {
 		titleCard();
 		exit(0);
@@ -63,14 +68,14 @@ int main(int argc, char *argv[]) {
 
 	signal(SIGINT, cleanupVM);
 
-	srand((unsigned)(time(0))); 
+	srand((unsigned)(time(0)));
 
 	if (allocVMPathways(&VM.pathways, argc-1, argv) == 0)
 		runVMPathways(&VM.pathways, VM.num_pathways);
 
 	cleanupVM(0);
 }
-	
+
 void titleCard() {
 	printf ("Usage: %s p1.bin p2.bin p3.bin ... pn.bin \n", VM.appname);
 	printf ("       where at least two execution pathways are provided\n       pathways must be binary files >= 2 bytes\n");
@@ -88,7 +93,7 @@ int initVMPathwayFromFile(VM_ROUTE *v, char *name) {
 		fprintf(stderr, "Error @ %s: unable to open file\n", name);
 		return 1;
 	}
-	
+
 	//Get file length
 	fseek(file, 0, SEEK_END);
 	fileLen=ftell(file);
