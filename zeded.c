@@ -1,4 +1,4 @@
-/* ZEDED (c) David Titarenco 2010
+/* ZEDED (c) David Titarenco 2010-11
  * Licence: MIT
  * TODO: still plenty of stuff
  */
@@ -36,7 +36,7 @@ struct __s_zeded_vm {
 } VM = { NULL };
 
 /* Some helper typedefs for C and C++ (note the scope resolution)
- * TODO: Actually use bool more liberallys
+ * TODO: Actually use bool more liberally
  */
 #ifdef __cplusplus
 	typedef struct __s_zeded_vm::__s_vm_route VM_ROUTE;
@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
 		runVMPathways(&VM.pathways, VM.num_pathways);
 
 	cleanupVM(0);
+	return 0
 }
 
 void titleCard() {
